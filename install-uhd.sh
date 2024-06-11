@@ -7,14 +7,14 @@ sudo apt-get install git
 
 ## UHD install
 # prep folders
-mkdir /opt/gnuradio3.8-$UHDVER
-mkdir ~/workarea
+mkdir $INSTALLPREFIX
 mkdir ~/rfdev
-mkdir ~/hls-blocks
+mkdir ~/rfdev/uhd
+mkdir ~/rfdev/workarea
 
 # clone UHD into workarea folder
 # from uhd github
-cd ~/workarea
+cd ~/rfdev/workarea
 rm -rf uhd # remove any previously cloned uhd
 git clone -b $UHDVER https://github.com/EttusResearch/uhd.git
 
@@ -38,10 +38,12 @@ python3-ruamel.yaml dpdk dpdk-dev libdpdk-dev
 #ninja -C -j 4 build && sudo ninja install
 
 # build from source and install
-cd ~/workarea/uhd/host
+cd ~/rfdev/workarea/uhd/host
 mkdir build && cd build
 rm -rf *
-cmake -DCMAKE_INSTALL_PREFIX=/opt/gnuradio3.8-$UHDVER -DCMAKE_CXX_COMPILER=/usr/bin/gcc-11 ..
+cmake -DCMAKE_INSTALL_PREFIX=$INSTALLPREFIX ..
 make -j4
 sudo make install
+
+cp -r ~/rfdev/workarea/uhd/* ~/rfdev/uhd
 

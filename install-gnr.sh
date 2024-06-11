@@ -6,11 +6,12 @@ sudo apt-get -y update && sudo apt-get -y upgrade
 sudo apt-get install git
 
 ## make direcotires if they doesnt exist
-mkdir /opt/gnuradio3.8-$UHDVER
-mkdir ~/workarea
+mkdir $INSTALLPREFIX
+mkdir ~/rfdev
+mkdir ~/rfdev/workarea
 
 ## clone gnuradio 3.8
-cd ~/workarea
+cd ~/rfdev/workarea
 rm -rf gnuradio
 git clone --recursive -b maint-3.8 https://github.com/gnuradio/gnuradio.git
 
@@ -23,6 +24,8 @@ python3-zmq python3-scipy python3-gi python3-gi-cairo gir1.2-gtk-3.0 \
 libcodec2-dev libgsm1-dev libusb-1.0-0 libusb-1.0-0-dev libudev-dev python3-setuptools 
 
 ## build and install
-cd ~/workarea/gnuradio
+cd ~/rfdev/workarea/gnuradio
 mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=/opt/gnuradio3.8-$UHDVER ..
+make -j4
+sudo make install
